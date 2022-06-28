@@ -1,0 +1,91 @@
+sw1 configuration:
+
+interface Port-channel10
+switchport trunk encapsulation dot1q
+switchport mode trunk
+!
+interface Ethernet0/0
+description to VPC3
+switchport access vlan 10
+switchport mode access
+!
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+channel-group 10 mode on
+!
+interface Ethernet0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+channel-group 10 mode on
+
+sw2 configuration:
+
+interface Port-channel10
+switchport trunk encapsulation dot1q
+switchport mode trunk
+!
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+channel-group 10 mode on
+!
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+channel-group 10 mode on
+!
+interface Ethernet0/2
+switchport access vlan 20
+switchport mode access
+!
+interface Ethernet0/3
+description to R5
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+R5 configuration:
+
+-------------------------
+
+!
+interface Ethernet0/0
+no ip address
+duplex auto
+!
+interface Ethernet0/0.10
+encapsulation dot1Q 10
+ip address 192.168.10.1 255.255.255.0
+!
+interface Ethernet0/0.20
+encapsulation dot1Q 20
+ip address 192.168.20.1 255.255.255.0
+
+useful commands
+
+------------------------------
+
+#show ip route
+
+#show vlan id VLAN_number
+
+#show runn-conf
+
+**************************************
+after implementation of these commands there will be connectivity between PCs in different subnets.
+
+like:
+
+VPCS> ping 192.168.20.20
+
+
+
+84 bytes from 192.168.20.20 icmp_seq=1 ttl=63 time=8.732 ms
+84 bytes from 192.168.20.20 icmp_seq=2 ttl=63 time=4.895 ms
+84 bytes from 192.168.20.20 icmp_seq=3 ttl=63 time=2.185 ms
+84 bytes from 192.168.20.20 icmp_seq=4 ttl=63 time=3.563 ms
+84 bytes from 192.168.20.20 icmp_seq=5 ttl=63 time=5.880 ms
+
+
+
+VPCS>

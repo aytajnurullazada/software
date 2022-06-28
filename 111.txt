@@ -1,0 +1,52 @@
+DHCP
+Router(config)#int fa0/0
+Router(config-if)#ip address 192.168.0.1 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#
+
+Router(config-if)#do write memory
+Building configuration...
+[OK]
+Router(config-if)#ip dhcp pool net1
+Router(dhcp-config)#network 192.168.0.1 255.255.255.0
+Router(dhcp-config)#ip dhcp ex
+Router(dhcp-config)#exit
+
+Inter-VLAN
+Switch(config)#vlan 12
+Switch(config-vlan)#name IT
+Switch(config-vlan)#exit
+Switch(config)#vlan 45
+Switch(config-vlan)#name Sales
+Switch(config-vlan)#exit
+Switch(config)#vlan 20
+Switch(config-vlan)#name Ops
+Switch(config-vlan)#exit
+Switch(config)#int fa
+Commands 2
+Switch(config-if)#switchport access vlan 12
+Switch(config-if)#exit
+Switch(config)#int fa0/2
+Switch(config-if)#switchport access vlan 12
+Switch(config-if)#exit
+Switch(config)#int fa0/3
+Switch(config-if)#switchport access vlan 45
+Switch(config-if)#exit
+Switch(config)#int fa0/4
+Switch(config-if)#switchport access vlan 45
+Switch(conig-if)#exit
+Switch(config)#int fa0/5
+Switch(config-if)#switchport access vlan 20
+Switch(config-if)#exit
+Switch(config)#int fa0/6
+Switch(config-if)#switchport access vlan 20
+Switch(config-if)#exit
+Switch(config)#int gig0/1
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#exit
+Switch(config)#exit
+Router>en
+Router#conf t
+Router(config)#int gig0/0.12
+Router(config-subif)#encap dot1q 12
+Router(config-subif)#ip address 192.168.10.1 255.255.255.0
